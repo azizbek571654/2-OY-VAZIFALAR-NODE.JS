@@ -1,0 +1,1 @@
+global.myVar = "Hello, world!"; 
