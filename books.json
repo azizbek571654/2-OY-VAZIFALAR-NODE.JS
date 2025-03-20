@@ -1,0 +1,50 @@
+[
+  {
+    "id": "1",
+    "title": "nmolyapti",
+    "author": "bek air",
+    "year": 2025,
+    "genre": "bijir bijir",
+    "pages": 69
+  },
+  {
+    "id": "2",
+    "title": "The Alchemist",
+    "author": "Paulo Coelho",
+    "year": 1988,
+    "genre": "Fiction",
+    "pages": 208
+  },
+  {
+    "id": "3",
+    "title": "1984",
+    "author": "George Orwell",
+    "year": 1949,
+    "genre": "Dystopian",
+    "pages": 328
+  },
+  {
+    "id": "4",
+    "title": "Rich Dad Poor Dad",
+    "author": "Robert Kiyosaki",
+    "year": 1997,
+    "genre": "Finance",
+    "pages": 336
+  },
+  {
+    "id": "5",
+    "title": "Deep Work",
+    "author": "Cal Newport",
+    "year": 2016,
+    "genre": "Productivity",
+    "pages": 296
+  },
+  {
+    "id": "8",
+    "title": "Deep Work",
+    "author": "Cal Newport",
+    "year": 2016,
+    "genre": "Productivity",
+    "pages": 296
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "type": "module",
+  "name": "vazifa",
+  "version": "1.0.0",
+  "main": "idex.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node index.js",
+        "start:dev": "node --watch index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
