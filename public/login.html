@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login page</title>
+  <style>
+    .form {
+      display: flex;
+      flex-direction: column;
+      /* justify-content: center; */
+      /* align-items: center;  */
+      margin-left: 190px;
+      height: 100vh;
+      gap: 5px;
+      width: 200px;
+      height: 500px;
+    }
+  </style>
+</head>
+
+<body>
+  <form action="/login" method="POST">
+    <div class="form">
+      <h1>Login page</h1>
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" required>
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" required>
+      <button type="submit">Login</button>
+      <a href="register">Register</a>
+    </div>
+    </form>
+</body>
+
+</html>
