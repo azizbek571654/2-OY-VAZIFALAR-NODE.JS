@@ -1,0 +1,19 @@
+{
+  "name": "result_n20",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node --env-file=.env src/server.js",
+    "start:dev": "node  --watch --env-file=.env src/server.js"
+  },
+  "keywords": [],
+  "type": "module",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "uuid": "^11.1.0"
+  }
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../partials/head'); %>
+</head>
+
+<body class="container">
+
+  <header>
+    <%- include('../partials/header'); %>
+  </header>
+
+  <main>
+    <form class="container-sm  d-flex justify-content-center" id="<%= todo.id %>">
+
+      <div class="d-flex gap-2  w-75 p-3">
+
+        <input type="text" class="form-control" id="updateTodo" aria-describedby="todoHelp" name="title"
+          value="<%= todo.title %>">
+
+        <button type="submit" class="btn btn-primary">Update</button>
+      </div>
+
+    </form>
+
+  </main>
+
+  <footer class="fixed-bottom">
+    <%- include('../partials/footer'); %>
+  </footer>
+
+
+
+  <script>
+    const form = document.querySelector("form")
+    const updateTodo = document.querySelector("#updateTodo")
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault()
+
+
+
+      const id = e.target.id
+      const formData = new FormData(form)
+
+
+
+      const data = JSON.stringify({
+        title: updateTodo.value
+      })
+      console.log(data)
+      // console.log(`http://localhost:4000/todo/${id}`)
+      fetch(`http://localhost:4000/todo/${id}`, {
+        method: "PUT",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: data
+      }).then(data => {
+        if (!data.ok) {
+          alert("data not updated")
+          return
+        }
+        alert("updated")
+        window.location = `http://localhost:4000`;
+
+      })
+    })
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../partials/head'); %>
+</head>
+
+<body class="container">
+
+  <header>
+    <%- include('../partials/header'); %>
+  </header>
+
+  <main>
+    <form class="container-sm  d-flex justify-content-center" action="/todo" method="post">
+
+      <div class="d-flex gap-2  w-75 p-3">
+
+        <input type="text" class="form-control" id="inputTodo" aria-describedby="todoHelp" name="title">
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+
+    </form>
+
+    <div class="container">
+      <h2>Tasks to do - <span id="todo_count">
+          <%= todoList.length %>
+        </span></h2>
+      <div class="list-group">
+        <ul class="list-group list-group-flush " style="width: 40rem; margin: 0 auto;">
+
+          <%if ( typeof todoList !="undefined" ? todoList : [] ) { %>
+            <% todoList.forEach(todo=> { %>
+              <li class="list-group-item d-flex justify-content-between">
+                <p>
+                  <%= todo.title %>
+                </p>
+                <div>
+                  <button type="button" class="btn btn-primary edit-btn" id="<%= todo.id %>">
+                    edit
+                  </button>
+                  <button type="button" class="btn btn-success done-btn" id="<%= todo.id %>">
+                    done
+                  </button>
+                  <button type="button" class="btn btn-danger del-btn" id="<%= todo.id %>">
+                    delete
+                  </button>
+                </div>
+              </li>
+              <% }) %>
+                <% } else { %>
+                  <p>No products available</p>
+                  <% } %>
+
+        </ul>
+      </div>
+    </div>
+
+    <div class="container ">
+      <h2>Done - <span id="done-todo_count">
+          <%= doneTodoList.length %>
+        </span></h2>
+      <ul class="list-group list-group-flush " style="width: 40rem; margin: 0 auto;">
+        <% doneTodoList.forEach(todo=> { %>
+          <li class="list-group-item d-flex justify-content-between">
+            <del>
+              <%= todo.title %>
+            </del>
+          </li>
+          <% }) %>
+
+
+      </ul>
+    </div>
+  </main>
+
+  <footer class="fixed-bottom">
+    <%- include('../partials/footer'); %>
+  </footer>
+
+
+  <script src="/js/edit.js"></script>
+  <script src="/js/done.js"></script>
+  <script src="/js/del.js"></script>
+
+</body>
+
+</html>
