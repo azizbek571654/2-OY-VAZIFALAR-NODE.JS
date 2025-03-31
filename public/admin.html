@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Personal Blog Admin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .admin-panel {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .panel-section {
+            flex: 1;
+            border: 2px solid #000;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .add-btn {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .article-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .article-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 12px 0;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .actions a {
+            color: #b0b0b0;
+            text-decoration: none;
+        }
+
+        .section-title {
+            margin-top: 0;
+            font-size: 18px;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* Sahifa tugmalari */
+        .nav-links {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .nav-links a {
+            padding: 5px 10px;
+            margin-right: 5px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .nav-links a.active {
+            text-decoration: underline;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="nav-links">
+        <a href="/" class="active">/admin</a>
+    </div>
+
+    <div class="admin-panel">
+        <div class="panel-section">
+            <div class="panel-header">
+                <span>Personal Blog</span>
+                <a href="/add" class="add-btn">+ Add</a>
+            </div>
+            <ul class="article-list" id="article-list">
+                <!-- JavaScript tomonidan to'ldiriladi -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const articleList = document.getElementById('article-list');
+
+            // Ma'lumotlarni olish
+            async function fetchArticles() {
+                try {
+                    const response = await fetch('/api/articles');
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch articles');
+                    }
+                    return await response.json();
+                } catch (error) {
+                    console.error('Error fetching articles:', error);
+                    return [];
+                }
+            }
+
+            // Maqolalarni ko'rsatish
+            function renderArticles(articles) {
+                articleList.innerHTML = '';
+
+                if (articles.length === 0) {
+                    // Misol uchun default maqolalarni ko'rsatish (yangi maqolalar yo'q bo'lganda)
+                    const defaultArticles = [
+                        { title: "My first article", id: "1" },
+                        { title: "Second article", id: "2" },
+                        { title: "Third article", id: "3" },
+                        { title: "Fourth article", id: "4" },
+                        { title: "Fifth article", id: "5" },
+                        { title: "Sixth article", id: "6" },
+                        { title: "Seventh article", id: "7" },
+                        { title: "Eighth article", id: "8" },
+                        { title: "Nineth Article", id: "9" }
+                    ];
+
+                    defaultArticles.forEach(article => {
+                        const li = document.createElement('li');
+                        li.className = 'article-item';
+                        li.innerHTML = `
+                            <span>${article.title}</span>
+                            <div class="actions">
+                                <a href="/edit?id=${article.id}">Edit</a>
+                                <a href="#" data-id="${article.id}" class="delete-btn">Delete</a>
+                            </div>
+                        `;
+                        articleList.appendChild(li);
+                    });
+                    return;
+                }
+
+                articles.forEach(article => {
+                    const li = document.createElement('li');
+                    li.className = 'article-item';
+                    li.innerHTML = `
+                        <span>${article.title}</span>
+                        <div class="actions">
+                            <a href="/edit?id=${article.id}">Edit</a>
+                            <a href="#" data-id="${article.id}" class="delete-btn">Delete</a>
+                        </div>
+                    `;
+                    articleList.appendChild(li);
+                });
+
+                // O'chirish tugmalarini qayta ishlash
+                document.querySelectorAll('.delete-btn').forEach(btn => {
+                    btn.addEventListener('click', async (e) => {
+                        e.preventDefault();
+                        const id = e.target.dataset.id;
+                        if (confirm('Are you sure you want to delete this article?')) {
+                            try {
+                                const response = await fetch(`/api/articles/${id}`, {
+                                    method: 'DELETE'
+                                });
+                                if (response.ok) {
+                                    // Maqolalar ro'yxatini yangilash
+                                    const updatedArticles = await fetchArticles();
+                                    renderArticles(updatedArticles);
+                                }
+                            } catch (error) {
+                                console.error('Error deleting article:', error);
+                            }
+                        }
+                    });
+                });
+            }
+
+            // Sahifa yuklanganda maqolalarni ko'rsatish
+            const articles = await fetchArticles();
+            renderArticles(articles);
+        });
+    </script>
+</body>
+
+</html>

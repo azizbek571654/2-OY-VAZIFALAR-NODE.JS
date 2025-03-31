@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Article</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .admin-panel {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .panel-section {
+            flex: 1;
+            border: 2px solid #000;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 18px;
+            text-align: center;
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .input-group {
+            margin: 15px 0;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #000;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            height: 200px;
+            resize: none;
+        }
+
+        button {
+            display: block;
+            margin: 20px auto 0;
+            padding: 8px 20px;
+            background: white;
+            border: 1px solid black;
+            cursor: pointer;
+        }
+
+        /* Sahifa tugmalari */
+        .nav-links {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .nav-links a {
+            padding: 5px 10px;
+            margin-right: 5px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .nav-links a.active {
+            text-decoration: underline;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="nav-links">
+        <a href="/">/admin</a>
+        <a href="#" class="active">/edit</a>
+    </div>
+
+    <div class="admin-panel">
+        <div class="panel-section">
+            <h1>Update Article</h1>
+            <form id="update-form">
+                <div class="input-group">
+                    <label for="title">Article Title</label>
+                    <input type="text" id="title" placeholder="Article Title" required>
+                </div>
+                <div class="input-group">
+                    <label for="date">Publishing Date</label>
+                    <input type="date" id="date" required>
+                </div>
+                <div class="input-group">
+                    <label for="content">Content</label>
+                    <textarea id="content" placeholder="Content" required></textarea>
+                </div>
+                <button type="submit">Update</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const form = document.getElementById('update-form');
+            const urlParams = new URLSearchParams(window.location.search);
+            const articleId = urlParams.get('id');
+
+            if (!articleId) {
+                alert('No article ID provided');
+                window.location.href = '/';
+                return;
+            }
+
+            // Maqola ma'lumotlarini olish
+            try {
+                const response = await fetch(`/api/articles/${articleId}`);
+
+                // Agar maqola topilmasa, misol uchun maqola ma'lumotlarini ishlatish
+                let article;
+                if (!response.ok) {
+                    const defaultTitle = `Article ${articleId}`;
+                    const defaultDate = new Date().toISOString().split('T')[0];
+                    article = {
+                        id: articleId,
+                        title: defaultTitle,
+                        date: defaultDate,
+                        content: "Example content"
+                    };
+                } else {
+                    article = await response.json();
+                }
+
+                document.getElementById('title').value = article.title;
+                document.getElementById('date').value = article.date || new Date().toISOString().split('T')[0];
+                document.getElementById('content').value = article.content;
+            } catch (error) {
+                console.error('Error fetching article:', error);
+            }
+
+            // Formni yuborish
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const title = document.getElementById('title').value;
+                const date = document.getElementById('date').value;
+                const content = document.getElementById('content').value;
+
+                try {
+                    const response = await fetch(`/api/articles/${articleId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ title, date, content })
+                    });
+
+                    if (response.ok) {
+                        window.location.href = '/';
+                    } else {
+                        alert('Failed to update article');
+                    }
+                } catch (error) {
+                    console.error('Error updating article:', error);
+                    alert('Error: ' + error.message);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
