@@ -7,7 +7,6 @@ const { Client } = pkg;
 
 const app = express();
 const port = 4000;
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
