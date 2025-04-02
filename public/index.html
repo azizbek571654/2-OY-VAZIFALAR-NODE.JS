@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Foydalanuvchilar ma'lumotlari</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Foydalanuvchilar ma'lumotlari</h1>
+      <p>PostgreSQL ma'lumotlar bazasidan foydalanuvchilar ro'yxati</p>
+    </header>
+
+    <main>
+      <section class="form-section">
+        <h2>Yangi foydalanuvchi qo'shish</h2>
+        <form id="userForm">
+          <div class="form-group">
+            <label for="name">Ism:</label>
+            <input type="text" id="name" name="name" required placeholder="Foydalanuvchi ismini kiriting">
+          </div>
+          
+          <div class="form-group">
+            <label for="email">Elektron pochta:</label>
+            <input type="email" id="email" name="email" required placeholder="Elektron pochta manzilini kiriting">
+          </div>
+          
+          <button type="submit" class="btn-submit">Qo'shish</button>
+        </form>
+        <div id="message" class="message"></div>
+      </section>
+
+      <section class="users-section">
+        <h2>Foydalanuvchilar ro'yxati</h2>
+        <div class="loader" id="loader"></div>
+        <div id="usersList" class="users-list">
+          <!-- Foydalanuvchilar ro'yxati shu yerda ko'rsatiladi -->
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 - Foydalanuvchilar ma'lumotlari boshqaruv tizimi</p>
+    </footer>
+  </div>
+
+  <script src="script.js" type="module"></script>
+</body>
+</html>
